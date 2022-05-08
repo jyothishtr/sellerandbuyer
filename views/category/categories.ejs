@@ -1,0 +1,103 @@
+<% include ../partials/header %>
+
+<form action="/categories/delete" method="POST"  id="deletecategory" >  
+                    <div class="container-fluid">
+                        
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Category      
+                          
+                                
+                           
+                          <div class="float-right">
+                              
+                                    <a href="/categories/add"  class="btn btn-primary"><i class="far fa-plus-square"></i> </i> Add </a>
+                               
+                             
+                                
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-hourglass-start"> </i> Delete</button> 
+                            
+                            </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="checkall"></th>
+                                                <th>Code</th>
+                                                <th>Item Category</th>
+                                                <th>Active</th> 
+                                                <th>Edit</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                       
+                                        <tbody>
+                                          
+                                            <% data.categories.forEach(function(category){ %>
+                                               
+                                                <% var active = (parseInt(category.activestatus) == 1) ? 'Active':'Inactive'; %>
+                                                <tr>
+                                                    <td>
+                                                        <input name = "idselect" type="checkbox" class="checkitem" value="<%=category.categoryid%>">
+                                                    </td>
+                                                  <td><%=category.categoryid%></td>
+                                                  <td><%=category.categoryname%></td>
+                                                  <td><%=active %></td>
+                                               
+                                                  <td>
+                                                       <a href="/categories/<%=category.categoryid%>" class="btn btn-warning"><i class="far fa-edit"></i> </a> 
+                                                  </td>
+                                               
+                                              </tr>
+                                            <% }); %>   
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       <script>
+
+           $('#checkall').change(function(){
+              // alert("hello");
+//$('.checkitem').prop("checked",this.prop("checked"));
+$('input:checkbox').not(this).prop('checked', this.checked);
+           })
+
+
+ $('#deletecategory').submit(function(e){
+           e.preventDefault();
+            var idarray = [];
+            $.each($("input[name='idselect']:checked"), function(){
+                idarray.push(parseInt($(this).val()));
+            });
+            
+            if(idarray.length == 0){
+                alert("Please Select Record(s)");
+                return;
+            }
+       //console.log("HERE");
+       this.submit();
+            
+        });
+
+
+       </script>
+            <% include ../partials/footer %>

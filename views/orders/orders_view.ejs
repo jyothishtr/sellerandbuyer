@@ -1,0 +1,334 @@
+    <% include ../partials/header %>
+
+            
+                
+                        <div class="container-fluid">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">Orders</li>
+                        
+                            </ol>
+                    
+                            <div class="row no-print float-center">
+                                <div class="col-xs-12">
+                                 
+                                    
+                                    <!-- <button class="btn btn-success pull-right" id="btnmodidispatch"><i class="fas fa-shipping-fast"></i> Modify Dispatch</button> -->
+                               
+                                       
+                                    
+                                               <button class="btn btn-success pull-right" id="btnallocate"><i class="fas fa-shipping-fast"></i> Deliver</button>
+                                        
+                                            <!-- <button class="btn btn-primary pull-right" style="margin-right: 5px;" id="btnmodidelay"><i class="fas fa-hourglass-start"></i> Modfiy Delay</button> -->
+                                       
+                                                <button class="btn btn-primary pull-right" style="margin-right: 5px;"id="btndelay"><i class="fas fa-hourglass-start"></i> Delay</button>
+                                                <button class="btn btn-danger pull-right" style="margin-right: 5px;"id="btnreject"><i class="fas fa-ban"></i> Reject</button>
+                                
+                                                </form>
+                                </div>
+                           
+                             
+
+                            
+                            </div>
+  
+                        
+                        <br>
+                        <div id="allocateform" style="display: none;">
+                         
+                            <form id="allocateform" action="/api/deliverorder/routecode/1/routekey/1/orderid/<%=data.orderheader[0].orderid%>/invoicenumber/<%=data.orderheader[0].orderid%>" method ="POST" >
+                                <input type="hidden" name="orderid" readonly  value="<%=data.orderheader[0].orderid%>">
+                                
+                            
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </form>
+
+                        </div>
+                        
+                        <div id="delayform" style="display:none;">
+                            <form id="delayform1" action="/orders/delay" method ="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                    <label for="inputCity">Delay Reason</label>
+                                    <select id="inputarea" name="reason"class="form-control" required>
+                                        <option selected value="">Choose...</option>
+                                        <% data.delayreason.forEach(function(reason){ %>
+                                            <option value="<%= reason.reasonid %>" ><%=reason.reasondescription %></option>
+                                    
+                                        <% }); %> 
+                                    </select>
+                                    </div>
+                  
+                                </div>
+
+                                
+                            <input type="hidden" name="orderid" readonly  value="<%=data.orderheader[0].orderid%>">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+
+                        </div>
+                      
+                        <div id="rejectform" style="display: none;">
+                            <form id="delayform1" action="/orders/reject" method ="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                    <label for="inputCity">Reject Reason</label>
+                                    <select id="inputarea" name="rejectreason"class="form-control" required>
+                                        <option selected  value="">Choose...</option>
+                                        <% data.rejectreason.forEach(function(reason){ %>
+                                            <option value="<%= reason.reasonid %>" ><%=reason.reasondescription %></option>
+                                    
+                                        <% }); %> 
+                                    </select>
+                                    </div>
+                                </div>
+
+                                
+                            <input type="hidden" name="orderid" readonly  value="<%=data.orderheader[0].orderid%>">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+
+                        </div>
+                      
+                      <!-- DATA MODEL-->
+
+                      <div  id="mapModal"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">  
+                             
+                               <h4 class="modal-title">Customer Location</h4>  
+                          </div> 
+                          
+                          
+                            <div id="map"></div>
+                            
+                            <div class="modal-footer">  
+                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                            </div> 
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div  id="dataModal"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">  
+                             
+                               <h4 class="modal-title">Log Details</h4>  
+                          </div> 
+                          <div class="modal-body" id="log_data">  
+                          
+
+                          </div>  
+                            <div class="modal-footer">  
+                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                            </div> 
+
+                          </div>
+                        </div>
+                      </div>
+
+                            <section class="content content_content" style="width: 70%; margin: auto;">
+                                <section class="invoice" >
+                                    
+      
+                                    <div class="row invoice-info">
+                                 
+                                        <div class="col-sm-4 invoice-col">
+                                            Shipping Address
+                                            <address>
+                                                <strong>
+                                                    <%= data.shippingdetail[0].custname%>  </strong>
+                                                <br>
+                                                Address:
+                                                <%= data.shippingdetail[0].custaddress%>                                    <br>                           
+                                                <%= data.shippingdetail[0].custaddress1%>  <br>
+                                               <strong>Landmark :</strong> 
+                                                <%= data.shippingdetail[0].landmark%> <br>
+
+                                                Phone:
+                                                <%= data.shippingdetail[0].custphone%>                                 <br>
+                                                Email: <%= data.shippingdetail[0].custemail%>  
+                                             
+                                                <% var deliverydate = (data.orderheader[0].deliverydate)?data.orderheader[0].deliverydate.getFullYear()+'/'+(data.orderheader[0].deliverydate.getMonth()+1)+'/'+data.orderheader[0].deliverydate.getDate():0; %>
+                                                Delivery Time: <%= data.orderheader[0].deliverytime%> <br>
+                                                Delivery Date: <%= deliverydate%>                               </address>
+                                        </div>
+                                        <div class="col-sm-4 invoice-col">
+                            
+                                        </div>
+
+                                        <div class="col-sm-4 invoice-col">
+                                          <input hidden type="text" name="" id="custlat" value="<%= data.shippingdetail[0].custlatitude%>">
+                                          <input hidden type="text" name="" id="custlng" value="<%= data.shippingdetail[0].custlongitude%>">
+                                            <b>Order ID</b> <%=data.orderheader[0].orderid%><br>
+                                            <% var date = data.orderheader[0].cdate.getFullYear()+'/'+(data.orderheader[0].cdate.getMonth()+1)+'/'+data.orderheader[0].cdate.getDate(); %>
+                                            <b>Date :</b><%=date%><br>
+                                            <b>Area:</b>  <%= data.shippingdetail[0].custlocation%> <br>
+                                           
+               
+                                           <% var mode = ""; if(data.orderheader[0].paymentmode == 0){mode =  "C.O.D."} else if(data.orderheader[0].paymentmode == 1){mode = "Coupon on Delivery"}else if(data.orderheader[0].paymentmode == 2){mode = "Debit Card"}else if(data.orderheader[0].paymentmode == 4){mode = "Card Swipe - POS"}else{mode = "Credit Card"}%>
+                                           <b>Payment Mode: </b><%=mode%> <br>
+                                           <% var status = ""; if(data.orderheader[0].statusflag == 0){status = "PENDING"} else if(data.orderheader[0].statusflag == 1){status = "CONFIRMED"}else if(data.orderheader[0].statusflag == 2){status = "DELAYED"}else if(data.orderheader[0].statusflag == 3){status = "DELIVERED"}else {status = "REJECTED"}%>
+                                           <b>Status : <span id = "color" class="<%=status%>"><%=status%></span> </b>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->    
+            
+                                    <!-- Table row -->
+                                    <div class="row">
+                                        <div class="col-xs-12 table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Code</th>
+                                                        <th>Product Name</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                
+                                                <% data.orderdetail.forEach(function(product){ %>
+
+                                                    <tr>
+                                                    <td><%=product.itemcode%></td>
+                                                    <td><%=product.itemdescription%></td>
+                                                    <td><%=product.salesqty%></td>
+                                                    <td><%=parseFloat(product.totalamount).toFixed(3)%></td>
+                                                        
+                                                </tr>
+                                                <% }); %>   
+                                                </tbody>
+                                            </table>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+            
+                                    <div class="row">
+                                        <!-- accepted payments column -->
+                                        <div class="col-md-12">
+                                        
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <%  if(data.shippingdetail[0].deliveryinstruction){ %>
+                                                        <tr>
+                                                            <th>Delivery Instruction</th>
+                                                            <td>   <%=data.shippingdetail[0].deliveryinstruction%> </td>
+                                                        </tr>
+                                                        <% }%>
+                                                        <tr>
+                                                            <th>Sub Total:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].subtotal).toFixed(3)%> OMR</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Delivery Charger:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].deliverycharge).toFixed(3)%> OMR</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Grand Total:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].gradtot).toFixed(3)%> OMR</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+            
+                                    <!-- this row will not appear when printing -->
+                                
+                            
+                                </section>
+
+                                
+                            </section>
+
+                        
+                        </div>
+                
+                    </main>
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            
+                <script>
+                    $(document).ready(function () {
+                        //alert("hello");
+                        // allocateform delayform rejectform
+                        $("#btnallocate").click(function () {
+                            $("#delayform").hide();
+                            $("#rejectform").hide();
+                            $("#allocateform").toggle();
+                        });
+                    
+                        $("#btndelay").click(function () {
+                            $("#allocateform").hide();
+                            $("#rejectform").hide();
+                            $("#delayform").toggle();
+                        });
+                        $("#btnreject").click(function () {
+                            $("#allocateform").hide();
+                            $("#delayform").hide();
+                            $("#rejectform").toggle();
+                        });
+
+                      
+                      $("#location").click(function(){
+                        var lat = parseFloat($('#custlat').val()) ;
+                        var lng = parseFloat($('#custlng').val());
+                      
+                        initMap(lat,lng);
+                        $('#mapModal').modal("show");
+                      });
+                      
+                      
+                        $('#getlogdata').click(function(){
+                            var orderid =   $('#getlogdata').data('value');
+                           
+         $.ajax({   
+        type: 'GET',
+        url: '/orders/getlogdata/'+orderid,
+        success: function(response){   
+            $('#log_data').html(response);  
+        $('#dataModal').modal("show");  
+        
+      
+}
+});
+                        });
+                  
+                  
+                  
+                    });
+                    
+                    
+  function initMap(lat1,lng1) {
+  // The location of Uluru
+  var uluru = {lat:lat1, lng: lng1};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 15, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}                
+ </script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgPwFJZ8tRPZ-McqYJmcQG9a8MbRuP_7Q&callback=initMap">
+</script>
+
+
+ 
+                <% include ../partials/footer %>

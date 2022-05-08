@@ -1,0 +1,77 @@
+<% include ../partials/header %>
+<br>
+
+             
+                    <div class="container-fluid">
+                        <h3 class="mt-4">Categories</h3>
+                      
+                       <!--
+                           for errors.
+                       -->
+                    <br>
+                       <div class="container">
+                        
+                        <form action="/categories/edit/<%= data.categories.categoryid %>" method="POST">
+                            <div class="form-group row">
+                                <label for="Category" class="col-sm-2 col-form-label">Category Code</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control" id="categoryid" name="categoryid" value="<%=data.categories.categoryid%>" placeholder="Category Name" readonly>
+                                </div>
+                              </div>
+                            <div class="form-group row">
+                                <label for="Category" class="col-sm-2 col-form-label">Category Name</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control" id="Category" name="categoryname" value="<%=data.categories.categoryname%>" placeholder="Category Name">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="Category" class="col-sm-2 col-form-label">Category Arabic Name</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control" id="Category" name="categoryarbname" value="<%=data.categories.arb_categoryname%>" placeholder="Category Arabic Name">
+                                </div>
+                              </div>
+                              <input type="text" hidden name="cdate" value="<%=data.categories.cdate%>">
+                            
+                              <div class="form-group row">
+                                  <label for="Category" class="col-sm-2 col-form-label">Create Date</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="Category"  value="<%=data.categories.cdate%>"  readonly placeholder="Category Arabic Name">
+                                  </div>
+                                </div>
+                               
+                            <div class="form-group">
+                              <div class="form-check">
+                                <% let checked = (  data.categories.activestatus === 1 ) ? "checked" : "" %>
+                                <input class="form-check-input" type="checkbox" name="active"  <%= checked%>    >
+                                <label class="form-check-label" for="gridCheck">
+                                  Active
+                                </label>
+                              </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Save</button>
+                          </form> 
+
+
+                       </div>
+                       
+           
+
+                   
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       
+            <% include ../partials/footer %>

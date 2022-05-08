@@ -1,0 +1,59 @@
+<% include ../partials/header %>
+             
+                    <div class="container-fluid">
+                      <a href="/categories" class="btn btn-primary"> Back</a> 
+                      <h3 class="mt-4">Categories</h3>
+                       
+                    
+                  
+                       <div class="container">
+                        
+                        <form action="/categories/add" method ="POST">
+                           
+                            <div class="form-group row">
+                                <label for="Category" class="col-sm-2 col-form-label">Category Name</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control" id="Category" name="categoryname" placeholder="Category Name">
+                                </div>
+                              </div>
+                              <!-- <div class="form-group row">
+                                <label for="Category" class="col-sm-2 col-form-label">Category Arabic Name</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control" id="Category" name="categoryarbname" placeholder="Category Arabic Name">
+                                </div>
+                              </div> -->
+                        
+                            <div class="form-group">
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="active" id="active" checked="true">
+                                <label class="form-check-label" for="gridCheck">
+                                  Active
+                                </label>
+                              </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                          </form> 
+
+
+                       </div>
+                       
+           
+
+                   
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       
+            <% include ../partials/footer %>

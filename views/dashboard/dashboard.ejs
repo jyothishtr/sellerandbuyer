@@ -1,0 +1,194 @@
+<% include ../partials/header %>
+
+                    <div class="container-fluid">
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        <div class="row">
+                       
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Pending Orders : <strong ><%=rows[1][0].pendingorder%></strong></div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="/orders/pending">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Delivered Orders: <strong ><%=rows[3][0].deliveredorder%></strong></div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="orders/delivered">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Delayed Orders : <strong ><%=rows[2][0].delayedorder%></strong></div>    
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="orders/delayed">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                   
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Quick Order 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       
+      
+      <script>
+
+
+$(document).ready(function(){
+
+    $.ajax({
+ type: 'GET',
+ url: '/dashboard/getgraphdata',
+ success: function(data){
+console.log(data);
+var month = data.month;
+var custCount = data.custCount;
+var ctx = document.getElementById('myChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: month,
+        datasets: [{
+         label: 'New Customers',
+            data:custCount,
+            backgroundColor:'lightblue',
+            boderColor:'blue',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1
+                }
+            }]
+        },
+        legend:{
+            enabled:false 
+        }
+    }
+});
+
+
+}
+});
+
+
+$.ajax({
+ type: 'GET',
+ url: '/dashboard/getgraphdata2',
+ success: function(data){
+console.log(data);
+var orderdate = data.orderdate;
+var neworders = data.neworders;
+var ctx2 = document.getElementById('myChart2').getContext('2d');
+
+var myChart2 = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: orderdate,
+        datasets: [{
+         label: 'Orders',
+            data:neworders,
+            backgroundColor:'blue',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1
+                }
+            }]
+        },
+        legend:{
+            enabled:false 
+        }
+    }
+});
+
+
+}
+});
+
+
+$.ajax({
+ type: 'GET',
+ url: '/dashboard/getgraphdatasalesChart',
+ success: function(data){
+console.log(data);
+var month = data.month;
+var custCount = data.salesValue;
+var ctx = document.getElementById('salesChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: month,
+        datasets: [{
+         label: 'Sales Value',
+            data:custCount,
+            backgroundColor:'#58508d',
+            boderColor:'#003f5c',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize:10
+                }
+            }]
+        },
+        legend:{
+            enabled:false 
+        }
+    }
+});
+
+
+}
+});
+
+
+})
+
+
+
+
+
+
+
+
+
+</script>
+            <% include ../partials/footer %>

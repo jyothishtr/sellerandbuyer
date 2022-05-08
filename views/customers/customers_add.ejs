@@ -1,0 +1,52 @@
+
+<% include ../partials/header %>
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Add Customer</h1>  <a class="btn btn-info" href="/suppliers"> Back</a>
+      </div>
+<br>
+<form action="/customers/add" method ="POST">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Customer Name</label>
+        <input type="text" class="form-control" id="companyName"  name="customername" placeholder="Company Name" required >
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputContactPerson">Contact Person</label>
+        <input type="text" class="form-control" id="ContactPerson" name="contactperson" placeholder="Contact Person" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">Address</label>
+      <input type="text" class="form-control" id="inputAddress"  name="address" placeholder="1234 Main St" required>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputZip">Contact Number 1</label>
+            <input type="tel" class="form-control" id="telephone" name="contactnumber" placeholder="Contact Number" required>
+          </div>
+          <div class="form-group col-md-6">
+              <label for="inputContactPerson">Email</label>
+              <input type="email" class="form-control" id="Email" name="email"placeholder="Email" required>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputZip">Customer Barcode</label>
+                <input type="tel" class="form-control" id="telephone" name="customerbarcode" placeholder="Contact Barcode" required>
+              </div>
+              <div class="form-group col-md-2">
+                  <label for="inputZip">Customer Type</label>
+                  <input type="tel" class="form-control" id="telephone" name="customertype" placeholder="Contact Type" required>
+                </div>
+    </div>  
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="active" id="active" checked="true">
+        <label class="form-check-label" for="gridCheck">
+          Active
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form> 
+  <% include ../partials/footer %>

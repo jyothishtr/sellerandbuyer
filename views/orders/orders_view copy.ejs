@@ -1,0 +1,263 @@
+    <% include ../partials/header %>
+
+                    
+                
+                        <div class="container-fluid">
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">Orders</li>
+                        
+                            </ol>
+                        <!-- <% if( data.orderheader[0].statusflag != 3){  %>
+                            <div class="row no-print float-center">
+                                <div class="col-xs-12">
+                                    <% if( data.orderheader[0].shipmentflag == 1){  %>
+                                    
+                                    <button class="btn btn-success pull-right" id="btnmodidispatch"><i class="fas fa-shipping-fast"></i> Modify Dispatch</button>
+                                    <% }else{  %>
+                                        <button class="btn btn-success pull-right" id="btndispatch"><i class="fas fa-shipping-fast"></i> Dispatch</button>
+                                        <% if( data.orderheader[0].delayedflag ==  1){  %>
+                                            <button class="btn btn-primary pull-right" style="margin-right: 5px;" id="btnmodidelay"><i class="fas fa-hourglass-start"></i> Modfiy Delay</button>
+                                            <% }else{  %>
+                                                <button class="btn btn-primary pull-right" style="margin-right: 5px;"id="btndelay"><i class="fas fa-hourglass-start"></i> Delay</button>
+                                                <% }%>
+                                            <% }%>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        <%  } %>
+                        -->
+                                <br>
+                                <!-- <div id="dispatchform" style="display: none;">
+                                    <form id="dispatchform1" action="/orders/dispatch" method ="POST" >
+                                        <div class="form-row" >
+                                            <div class="form-group col-md-4">
+                                            <label for="inputCity">Area</label>
+                                            
+                                            <select id="area" name="area" class="form-control" required>
+                                                <option selected value="">Choose...</option>
+                                                <% data.areamaster.forEach(function(area){ %>
+                                                    <option value="<%= area.areacode %>" ><%=area.areaname %></option>
+                                            
+                                                <% }); %> 
+                                            </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                            <label for="inputState">Delivery Agent</label>
+                                            
+                                            <select id="agent" name="agent" class="form-control" required>
+                                                <option selected value="">Choose...</option>
+                                                <% data.agent.forEach(function(agent){ %>
+                                                    <option value="<%= agent.agentcode %>" ><%=agent.agentname %></option>
+                                                <% }); %>   
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="orderid" readonly  value="<%=data.orderheader[0].orderid%>">
+                                        
+                                    
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+
+                                </div>
+
+
+                                <div id="delayform" style="display: none;">
+                                    <form id="delayform1" action="/orders/delay" method ="POST">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                            <label for="inputCity">Reason</label>
+                                            <select id="inputarea" name="reason"class="form-control" required>
+                                                <option selected value="">Choose...</option>
+                                                <% data.delayreason.forEach(function(reason){ %>
+                                                    <option value="<%= reason.reasoncode %>" ><%=reason.reasonname %></option>
+                                            
+                                                <% }); %> 
+                                            </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Select Date: </label>
+                                                <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy" >
+                                                    <input class="form-control" name ="date" type="date" placeholder="Expected Delivery Date" required  />
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                    <input type="hidden" name="orderid" readonly  value="<%=data.orderheader[0].orderid%>">
+                                        <button type="submit" class="btn btn-primary">Sign in</button>
+                                    </form>
+
+                                </div>
+    -->
+
+                            <section class="content content_content" style="width: 70%; margin: auto;">
+                                <section class="invoice" >
+                                    
+      
+                                    <div class="row invoice-info">
+                                    
+                                        <div class="col-sm-4 invoice-col">
+                                            Shipping Address
+                                            <address>
+                                                <strong>
+                                                    <%= data.shippingdetail[0].custname%>  </strong>
+                                                <br>
+                                                Address:
+                                                <%= data.shippingdetail[0].custaddress%>                                    <br>
+                                                Phone:
+                                                <%= data.shippingdetail[0].custphone%>                                 <br>
+                                                Email: <%= data.shippingdetail[0].custemail%>  
+                                                Delivery Time: <%= data.orderheader[0].deliverytime%> <br>
+                                                Delivery Date: <%= data.orderheader[0].deliverydate%>                               </address>
+                                        </div>
+                                        <div class="col-sm-4 invoice-col">
+                            
+                                        </div>
+
+                                        <div class="col-sm-4 invoice-col">
+                                          
+                                            <b>Order ID</b> <%=data.orderheader[0].orderid%><br>
+                                            <% var date = data.orderheader[0].cdate.getFullYear()+'/'+(data.orderheader[0].cdate.getMonth()+1)+'/'+data.orderheader[0].cdate.getDate(); %>
+                                            <b>Date :</b><%=date%><br>
+                                            <b>Area:</b>  <%= data.shippingdetail[0].custlocation%> 
+                                            <b>Route Code:</b>100 <br>
+                                            <b>Salesman code:</b>  010 <br>
+               
+                                           <% var mode = ""; if(data.orderheader[0].paymentmode == 0){mode = "Cash on Delivery"} else if(data.orderheader[0].paymentmode == 1){mode = "PayPal"}else if(data.orderheader[0].paymentmode == 2){mode = "Debit Card"}else{mode = "Credit Card"}%>
+                                           <b>Payment Mode:</b><%=mode%>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->    
+            
+                                    <!-- Table row -->
+                                    <div class="row">
+                                        <div class="col-xs-12 table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Code</th>
+                                                        <th>Product Name</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                
+                                                <% data.orderdetail.forEach(function(product){ %>
+
+                                                    <tr>
+                                                    <td><%=product.itemcode%></td>
+                                                    <td><%=product.itemdescription%></td>
+                                                    <td><%=product.salesqty%></td>
+                                                    <td><%=product.totalamount%></td>
+                                                        
+                                                </tr>
+                                                <% }); %>   
+                                                </tbody>
+                                            </table>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+            
+                                    <div class="row">
+                                        <!-- accepted payments column -->
+                                        <div class="col-md-12">
+                                        
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <%  if(data.shippingdetail[0].deliveryinstruction){ %>
+                                                        <tr>
+                                                            <th>Delivery Instruction</th>
+                                                            <td>   <%=data.shippingdetail[0].deliveryinstruction%> </td>
+                                                        </tr>
+                                                        <% }%>
+                                                        <tr>
+                                                            <th>Sub Total:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].subtotal)%> OMR</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Delivery Charger:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].deliverycharge)%> OMR</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Grand Total:</th>
+                                                            <td>   <%= parseFloat(data.orderheader[0].gradtot)%> OMR</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+            
+                                    <!-- this row will not appear when printing -->
+                                
+                            
+                                </section>
+
+                                
+                            </section>
+
+                        
+                        </div>
+                
+                    </main>
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            //alert("hello");
+            
+            $("#btndispatch").click(function () {
+                $("#delayform").hide();
+                $("#dispatchform").toggle();
+            });
+        
+            $("#btndelay").click(function () {
+                $("#dispatchform").hide();
+                $("#delayform").toggle();
+            });
+        
+            $("#btnmodidispatch").click(function () {
+                //$("#delayform").hide();
+                $("#dispatchform").toggle();
+            });
+            btnmodidelay
+            $("#btnmodidelay").click(function () {
+                $("#dispatchform").hide();
+                $("#delayform").toggle();
+            });
+            
+            $('#dispatchform1').submit(function (evt) {
+                if($('#area option:selected').val() =='' || $('#agent option:selected').val() == ''){
+                evt.preventDefault();
+                alert("Please Select Values");
+            }
+            // $('#dispatchform1').submit();
+            });
+        });
+        
+        
+        
+        </script>
+                <% include ../partials/footer %>

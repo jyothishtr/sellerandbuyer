@@ -1,0 +1,178 @@
+<% include ../partials/header %>
+             
+                    <div class="container-fluid">
+                      <a href="/categories" class="btn btn-primary"> Back</a> 
+                      <button type="submit" class="btn btn-primary float-right">Save</button>
+                      <h3 class="mt-4">Division</h3>
+                       
+                       <div class="container">
+                        <form action="/categories/add" method ="POST">
+                         
+                            <div class="form-group row">
+                                <label for="Category" class="col-form-label">Divison ID</label>
+                                <div class="col-sm-1">
+                                  <input type="text" readonly class="form-control"  name="" value="<%=data.header.divisionid%>" placeholder="Category Name">
+                                </div>
+                                <label for="Category" class="col-form-label">Divison Name</label>
+                                <div class="col-sm-3">
+                                  <input type="text" class="form-control" name="categoryname" value="<%=data.header.divisionname%>"  placeholder="Category Name">
+                                </div>
+                                <label for="Category" class="col-form-label">Divison Arabic Name</label>
+                                <div class="col-sm-3">
+                                  <input type="text" class="form-control"  name="categoryarbname"value="<%=data.header.divisionarbname%>"  placeholder="Category Arabic Name">
+                                </div>
+                              </div>
+                              <% let checked = (data.header.activestatus == 1 ) ? "checked" : "" %>
+                              <div class="form-group">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" name="active" id="active" <%=checked%>>
+                                  <label class="form-check-label" for="gridCheck">
+                                    Active
+                                  </label>
+                                </div>
+                              </div>
+                          
+                          </form> 
+                           
+                       </div>
+
+                       <hr>
+                       <div class="container">
+                        <div class="form-group row">
+
+                            <label for="Category" class=" col-form-label">Category </label>
+                            <div class="col-sm-2">
+                                <!--selectpicker-->
+                                <select id="categoryselect" class="form-control"  data-live-search="true" name="categoryid" >
+                                    <option value="" >-- Select --</option>
+                                    <% data.categories.forEach(function(category) { %>
+                                        <option value="<%= category.categoryid %>" >
+                                          <%= category.categoryname %>
+                                        </option>
+                                        <% }); %>
+                                   
+                                </select>
+                            </div>
+                            <label for="itemcode" class=" col-form-label">Itemcode   </label>
+                            <div class="col-sm-2">
+                                <select id="itemcodeselect" class="form-control" data-live-search="true" >
+                                      <option value="">--Select--</option>
+                                </select>
+                              </div>
+
+                              <label for="itemdesc" class="col-form-label">Item Name</label>
+                              <div class="col-sm-3">
+                                <input readonly type="text" class="form-control"  id="itemdescription" name="itemname" value=""  placeholder="Item Name">
+                              </div>
+                        </div>
+          
+                        <div class="form-group row">
+                            <label for="Category" class="col-form-label">UPC</label>
+                            <div class="col-sm-1">
+                              <input type="number" readonly step="0.01" min="0"   class="form-control" id="upc" name="upc" placeholder="UPC">
+                            </div>
+                            <label for="Category"  class=" col-form-label">Sales Price</label>
+                            <div class="col-sm-2">
+                              <input type="number" readonly step="0.01" min="0"  class="form-control" id="salesprice" name="salesprice" placeholder="Sales Price">
+                            </div>
+                            <label for="Category" class=" col-form-label">Promotion %</label>
+                            <div class="col-sm-2">
+                              <input type="number"  step="0.01" min="0"  required class="form-control" id="promovalue" name="promovalue" placeholder="Promotion %">
+                            </div>
+                            <label for="Category" class=" col-form-label">Promo Price</label>
+                            <div class="col-sm-2">
+                              <input type="number" required   step="0.01" min="0"  class="form-control" id="Category" name="promoprice" placeholder="Promo Price">
+                            </div>
+
+                            <div class="col-sm-1">
+                               <button class="btn btn-primary" id="additem">Add</button>
+                              </div>
+                          </div>
+                        
+                       
+
+                   
+                    </div>
+           
+<hr>
+                   
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+     
+
+   
+    <script>
+       
+$(document).ready(function(){
+    
+    
+    $('#itemcodeselect').on('change',function(){
+        
+     var itemkey = this.value;
+      if(itemkey == ''){
+        $("#itemdescription").val(''); 
+        $("#upc").val(''); 
+        $("#salesprice").val(''); 
+ 
+        
+        return false;
+      }
+  $.ajax({
+ type: 'GET',
+ url: '/division/getdetails/'+itemkey,
+ success: function(data){
+console.log(JSON.stringify(data));
+       $("#itemdescription").val(data[0].itemdescription); 
+       $("#upc").val(data[0].upc); 
+       $("#salesprice").val(data[0].salesprice); 
+
+}
+});
+
+
+    });
+    
+    
+    $('#categoryselect').on('change',function(){
+   $('#itemcodeselect').find('.dym1').remove();
+         $("#itemdescription").val(''); 
+        $("#upc").val(''); 
+        $("#salesprice").val(''); 
+
+        var categoryid = this.value;
+         if(categoryid == ''){
+             return false;
+         }
+     $.ajax({
+    type: 'GET',
+    url: '/division/getitems/'+categoryid,
+    success: function(data){
+        data.forEach(element => {
+            $("#itemcodeselect").append('<option class="dym1" value=' + element.itemkey + '>' + element.itemcode + '</option>');
+        });     
+           
+             }
+});
+
+
+  
+});
+
+});
+  
+    </script>
+
+ <% include ../partials/footer %>

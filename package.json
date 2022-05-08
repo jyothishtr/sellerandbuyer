@@ -1,0 +1,37 @@
+{
+  "name": "wics",
+  "version": "1.0.0",
+  "description": "Quick Order OMS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "nodemon app.js"
+  },
+  "author": "Jyothish Thyagarajan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "bootstrap-select": "^1.13.14",
+    "chalk": "^2.4.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.2.0",
+    "firebase-admin": "^8.11.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^9.0.0",
+    "json2csv": "^5.0.6",
+    "method-override": "^3.0.0",
+    "mkdirp": "^1.0.4",
+    "mysql": "^2.17.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pem": "^1.14.4",
+    "resize-img": "^2.0.0"
+  }
+}

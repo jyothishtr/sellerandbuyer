@@ -1,0 +1,434 @@
+<% include ../partials/header %>
+     <style>
+
+	.table-wrapper {
+		width: 700px;
+		margin: 30px auto;
+        background: #fff;
+        padding: 20px;	
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    .table-title {
+        padding-bottom: 10px;
+        margin: 0 0 10px;
+    }
+    .table-title h2 {
+        margin: 6px 0 0;
+        font-size: 22px;
+    }
+    .table-title .add-new {
+        float: right;
+		height: 30px;
+		font-weight: bold;
+		font-size: 12px;
+		text-shadow: none;
+		min-width: 100px;
+		border-radius: 50px;
+		line-height: 13px;
+    }
+	.table-title .add-new i {
+		margin-right: 4px;
+	}
+    table.table {
+        table-layout: fixed;
+    }
+    table.table tr th, table.table tr td {
+        border-color: #e9e9e9;
+    }
+    table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    table.table th:last-child {
+        width: 100px;
+    }
+    table.table td a {
+		cursor: pointer;
+        display: inline-block;
+        margin: 0 5px;
+		min-width: 24px;
+    }    
+	table.table td a.add {
+        color: #27C46B;
+    }
+    table.table td a.edit {
+        color: #FFC107;
+    }
+    table.table td a.delete {
+        color: #E34724;
+    }
+    table.table td i {
+        font-size: 19px;
+    }
+	table.table td a.add i {
+        font-size: 24px;
+    	margin-right: -1px;
+        position: relative;
+        top: 3px;
+    }    
+    table.table .form-control {
+        height: 32px;
+        line-height: 32px;
+        box-shadow: none;
+        border-radius: 2px;
+    }
+	table.table .form-control.error {
+		border-color: #f50000;
+	}
+	table.table td .add {
+		display: none;
+	}
+
+     </style>        
+                    <div class="container-fluid">
+                        <form action="/division/<%=data.header.divisionid%>" method ="POST">
+                      <a href="/division" class="btn btn-primary"> Back</a> 
+                      <button type="submit" class="btn btn-primary float-right">Update</button>
+                      <h4 class="mt-4" style="color: darkslategray;">Division</h4>
+                       
+                       <div class="container">
+                     
+                         
+                            <div class="form-group row">
+                                <label for="Category" class="col-form-label">Divison ID</label>
+                                <div class="col-sm-1">
+                                  <input type="text" readonly class="form-control" id="divisionid" name="" value="<%=data.header.divisionid%>" placeholder="Category Name">
+                                </div>
+                                <label for="Category" class="col-form-label">Divison Name</label>
+                                <div class="col-sm-3">
+                                  <input type="text" class="form-control" name="divisionname" value="<%=data.header.divisionname%>"  placeholder="Category Name">
+                                </div>
+                                <label for="Category" class="col-form-label">Divison Arabic Name</label>
+                                <div class="col-sm-3">
+                                  <input type="text" class="form-control"  name="divisionarbname"value="<%=data.header.divisionarbname%>"  placeholder="Category Arabic Name">
+                                </div>
+                              </div>
+                              <% let checked = (data.header.activestatus == 1 ) ? "checked" : "" %>
+                              <div class="form-group">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" name="active" id="active" <%=checked%>>
+                                  <label class="form-check-label" for="gridCheck">
+                                    Active
+                                  </label>
+                                </div>
+                              </div>
+                          
+                          </form> 
+                           
+                       </div>
+
+                       <hr>
+                       <div class="container">
+                     <form action="/division/additem/<%=data.header.divisionid%>" method="POST">
+                        <div class="form-group row">
+                            <input type="hidden" value="<%=data.header.divisionid%>" name="divisionid">
+                            <label for="Category" class=" col-form-label">Category </label>
+                            <div class="col-sm-2">
+                                <!--selectpicker-->
+                                <select id="categoryselect" class="form-control"  data-live-search="true" name="categoryid" >
+                                    <option value="" >-- Select --</option>
+                                    <% data.categories.forEach(function(category) { %>
+                                        <option value="<%= category.categoryid %>" >
+                                          <%= category.categoryname %>
+                                        </option>
+                                        <% }); %>
+                                   
+                                </select>
+                            </div>
+                            <label for="itemcode" class=" col-form-label">Itemcode   </label>
+                            <div class="col-sm-2">
+                                <select id="itemcodeselect" class="form-control" data-live-search="true" name="itemcode" required>
+                                      <option value="">--Select--</option>
+                                </select>
+                              </div>
+
+                              <label for="itemdesc" class="col-form-label">Item Name</label>
+                              <div class="col-sm-3">
+                                <input readonly type="text" class="form-control"  id="itemdescription" name="itemname" value=""  placeholder="Item Name">
+                              </div>
+                        </div>
+          
+                        <div class="form-group row">
+                            <label for="Category" class="col-form-label">UPC</label>
+                            <div class="col-sm-1">
+                              <input type="number" readonly step="0.01" min="0"   class="form-control" id="upc" name="upc" placeholder="UPC">
+                            </div>
+                            <label for="Category"  class=" col-form-label">Sales Price</label>
+                            <div class="col-sm-2">
+                              <input type="number" readonly step="0.01" min="0"  class="form-control" id="salesprice" name="salesprice" placeholder="Sales Price">
+                            </div>
+                            <label for="Category" class=" col-form-label">Promotion %</label>
+                            <div class="col-sm-2">
+                              <input type="number"  step="0.01" min="0"  required class="form-control" id="promovalue" name="promovalue" placeholder="Promotion %">
+                            </div>
+                            <label for="Category" class=" col-form-label">Promo Price</label>
+                            <div class="col-sm-2">
+                              <input type="number" required   step="0.01" min="0"  class="form-control" id="Category" name="promoprice" placeholder="Promo Price">
+                            </div>
+
+                            <div class="col-sm-1">
+                               <button type="submit" class="btn btn-primary" id="additem">Add</button>
+                              </div>
+                          </div>
+                        </form>
+                    </div>
+
+                    <hr>
+                    <br><br>
+
+                    
+
+            <% if (data.detail === undefined || data.detail.length == 0) { %>
+                <div class="container">
+
+                    <h6 style="text-align: center; color: darkslategray;">No Records Found. Please add items</h6>
+                </div>    
+               
+          <% } else { %>
+
+            <div class="container">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Item Description</th>
+                            <th>Promo Value</th>
+                            <th>Promo Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                   
+                   
+                    <tbody>
+                       <% data.detail.forEach(function(item){%>
+
+                      
+                         <tr>
+                            <td class=" itemcode"><%=item.itemcode%></td>
+                            <td><%=item.itemdescription%></td>
+                            <td class="edup promovalue"><%=item.promovalue%></td>
+                            <td class="edup promoprice"><%=item.promoprice%></td>
+                           
+                            <td>
+                                <a class="add" data-value="<%=item.divisionid %>"><i class="fas fa-plus"></i></a>
+                                <a class="edit" data-value="<%=item.divisionid %>"><i class="fas fa-edit"></i></a>
+                                <a class="delete" data-value="<%=item.divisionid %>"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+              
+            
+            </div>
+          <% } %>
+              
+<hr>
+                   
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+     
+
+   
+    <script>
+       
+$(document).ready(function(){
+   
+    //===
+    $('[data-toggle="tooltip"]').tooltip();
+	var actions = $("table td:last-child").html();
+    $(document).on("click", ".add", function(){
+        var arr = [];
+        var empty = false;
+		var input = $(this).parents("tr").find('input[type="number"]');
+    
+        input.each(function(){
+           
+            if(!$(this).val()){
+				$(this).addClass("error");
+				empty = true;
+            } 
+            // else if($(this).val() == 0){
+            //     $(this).addClass("error");
+			// 	empty = true;
+            // }
+            
+            else{
+                $(this).removeClass("error");
+                arr.push($(this).val())
+            }
+		});
+		$(this).parents("tr").find(".error").first().focus();
+		if(!empty){
+            
+        var itemcode = $(this).parents("tr").find("td.itemcode").text();
+        var divisionid =  $(this).data('value');
+        var toggledata = $(this).parents("tr");
+        
+        $.ajax({
+        type: 'POST',
+        url: '/division/editdetails',
+        data: {
+             itemcode:itemcode,
+             promovalue:arr[0],
+             promoprice:arr[1],
+             divisionid :divisionid
+              },
+        success: function(response){   
+           if(response.status == "success"){
+            input.each(function(){
+			$(this).parent("td").html($(this).val());
+			});			
+			toggledata.find(".add, .edit").toggle();
+		
+           }else {
+            $(this).parents("tr").find(".add, .edit").toggle();
+                console.log(response.msg)
+                
+           }
+      
+}
+});
+
+        
+        }		
+    });
+
+
+
+	// Edit row on edit button clickc lass="edup"
+	$(document).on("click", ".edit", function(){		
+        $(this).parents("tr").find("td.edup").each(function(){
+			$(this).html('<input type="number"  step="0.01" min="0" class="form-control" value="' + $(this).text() + '">');
+        });	   
+		$(this).parents("tr").find(".add, .edit").toggle();
+    });
+	// Delete row on delete button click
+	$(document).on("click", ".delete", function(){
+     var divisionid =  $(this).data('value');
+     var itemcode = $(this).parents("tr").find("td.itemcode").text();
+   var deleteelement = $(this).parents("tr");
+        $.ajax({
+        type: 'POST',
+        url: '/division/deletedetails',
+        data: {
+             itemcode:itemcode,
+             divisionid :divisionid
+              },
+        success: function(response){   
+         //  alert(JSON.stringify(response));
+         if(response.status == "success"){
+         deleteelement.remove();
+      
+        }else {
+         
+                console.log(response.msg)
+                
+           }
+      
+}
+});
+     
+     
+     
+      
+	
+    });
+    //===
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $('#itemcodeselect').on('change',function(){
+        
+     var itemkey = this.value;
+      if(itemkey == ''){
+        $("#itemdescription").val(''); 
+        $("#upc").val(''); 
+        $("#salesprice").val(''); 
+ 
+        
+        return false;
+      }
+  $.ajax({
+ type: 'GET',
+ url: '/division/getdetails/'+itemkey,
+ success: function(data){
+console.log(JSON.stringify(data));
+       $("#itemdescription").val(data[0].itemdescription); 
+       $("#upc").val(data[0].upc); 
+       $("#salesprice").val(data[0].salesprice); 
+
+}
+});
+
+
+    });
+    
+    
+    $('#categoryselect').on('change',function(){
+   $('#itemcodeselect').find('.dym1').remove();
+         $("#itemdescription").val(''); 
+        $("#upc").val(''); 
+        $("#salesprice").val(''); 
+
+        var categoryid = this.value;
+         if(categoryid == ''){
+             return false;
+         }
+     $.ajax({
+    type: 'GET',
+    url: '/division/getitems/'+categoryid,
+    success: function(data){
+        data.forEach(element => {
+            $("#itemcodeselect").append('<option class="dym1" value=' + element.itemcode + '>' + element.itemcode + '</option>');
+        });     
+           
+             }
+});
+
+
+  
+});
+
+});
+  
+function   updateitem(itemcode,promovalue,promoprice){
+
+    if(!parseFloat(promovalue) || !parseFloat(promoprice) ){
+     alert("HERE");
+        return false;
+
+    }
+    alert(parseInt(itemcode));
+    alert(parseFloat(promovalue));
+    alert(parseFloat(promoprice));
+}
+
+    </script>
+
+ <% include ../partials/footer %>

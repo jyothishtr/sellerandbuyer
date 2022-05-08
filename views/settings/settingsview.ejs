@@ -1,0 +1,211 @@
+<% include ../partials/header %>
+<div class="container">
+   
+
+    <div class="row">
+      <div class="col-md-4 order-md-1 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Settings</span>
+         
+        </h4>
+        <ul class="list-group mb-3">
+            <!-- <li id="createuser" class="list-group-item d-flex justify-content-between lh-condensed">
+                <a>
+                  <h6 class="my-0">User</h6>
+                  <small class="text-muted">Create a new User</small>
+                </a>
+             
+              </li> -->
+
+              <!-- <li id="updateusername" class="list-group-item d-flex justify-content-between lh-condensed">
+                <a>
+                  <h6 class="my-0">Username</h6>
+                  <small class="text-muted">Update your Username</small>
+                </a>
+             
+              </li> -->
+
+          <li id="updatepassword" class="list-group-item d-flex justify-content-between lh-condensed">
+            <a>
+              <h6 class="my-0">Password</h6>
+              <small class="text-muted">Change Password</small>
+            </a>
+         
+          </li>
+          <li id="minorderval" class="list-group-item d-flex justify-content-between lh-condensed">
+            <a>
+              <h6 class="my-0">Minimum Order Value</h6>
+              <small class="text-muted">Change the minimum order value amount</small>
+            </a>
+         
+          </li>
+        </ul>
+
+
+      </div>
+      <div class="col-md-8 order-md-2">
+    
+        <div id="newuser" style="display: none;">
+
+            <!-- <h4 class="mb-3">Create User</h4> -->
+            <form action="/settings/createuser" method="POST">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">Enter Username</label>
+                  <input id="username" name="username" type="text" class="form-control" id="firstName" placeholder="" value="" >
+                </div>
+              </div>
+    
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">Enter Password</label>
+                  <input id="password" name="password" type="password" class="form-control" id="firstName" placeholder="" value="" >
+                </div>
+              </div>
+    
+    
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">Confrim Password</label>
+                  <input type="password"   name="confirmpassword" id="confirmpassword" class="form-control" id="firstName" placeholder="" value="" >
+                </div>
+              </div>
+              <button class="btn btn-primary align-right pull-right"  type="submit">Save</button>
+            </form>
+            
+          </div>
+
+
+
+    <div id="changepassword" style="display: none;">
+
+        <!-- <h4 class="mb-3">Change Password</h4> -->
+        <form  action="/settings/updatepassword" method="POST">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">Enter Current Password</label>
+              <input type="password" name = "currpass" class="form-control" id="firstName" placeholder="" value="" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">Enter New Password</label>
+              <input type="password" name = "newpass" class="form-control" id="firstName" placeholder="" value="" required>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">Confrim New Password</label>
+              <input type="password" name = "confirmnewpass"  class="form-control" id="firstName" placeholder="" value="" required>
+            </div>
+          </div>
+
+    
+          <button class="btn btn-primary align-right pull-right"  type="submit">Save</button>
+        </form>
+        
+      </div>
+       
+     
+
+      <div id="changeusername" style="display: none;">
+
+        <!-- <h4 class="mb-3">Change Username</h4> -->
+        <form  action="/settings/updateusername" method="POST" >
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">Enter New Username</label>
+              <input type="text" name= "newusername" class="form-control" id="firstName" placeholder="" value="" required>
+            </div>
+          </div>
+    
+          <button class="btn btn-primary align-right pull-right"  type="submit">Save</button>
+        </form>
+        
+      </div>
+
+      <div id="minordervalform" style="display: none;">
+
+        <!-- <h4 class="mb-3">Change Username</h4> -->
+        <form  action="/settings/minordervalue" method="POST" >
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">Enter Min Order value</label>
+              <p style="font-size: 12px;">Current Minimum order value : <%=minordervalue%></p>
+              <input type="number" name= "minordervalue" min="0" step="0.001" class="form-control" id="minordervalue" placeholder="" value="<%=minordervalue%>" required>
+            </div>
+          </div>
+    
+          <button class="btn btn-primary align-right pull-right"  type="submit">Save</button>
+        </form>
+        
+      </div>
+
+   
+      </div>
+
+
+      </div> 
+    </div>
+<script>
+  $(document).ready(function () {
+                        //alert("hello");
+                        // allocateform delayform rejectform
+                        $("#createuser").click(function () {
+                            $("#changeusername").hide();
+                            $("#changepassword").hide();
+                            $("#newuser").toggle();
+                            $("#createuser").toggleClass('selectoption');
+                            $("#updateusername").removeClass('selectoption');
+                            $("#updatepassword").removeClass('selectoption');
+                            $("#minordervalform").hide();
+                            $("#minorderval").removeClass('selectoption');
+                        });
+                    
+                        $("#updateusername").click(function () {
+                            $("#newuser").hide();
+                            $("#changepassword").hide();
+                            $("#changeusername").toggle();
+                            $("#updateusername").toggleClass('selectoption');
+                            $("#createuser").removeClass('selectoption');
+                            $("#updatepassword").removeClass('selectoption');
+                            $("#minordervalform").hide();
+                            $("#minorderval").removeClass('selectoption');
+                        });
+                        $("#updatepassword").click(function () {
+                            $("#newuser").hide();
+                            $("#changeusername").hide();
+                            $("#changepassword").toggle();
+                            $("#minordervalform").hide();
+                            $("#minorderval").removeClass('selectoption');
+                            $("#updatepassword").toggleClass('selectoption');
+                            $("#updateusername").removeClass('selectoption');
+                            $("#createuser").removeClass('selectoption');
+
+                        });
+
+                        $("#minorderval").click(function () {
+                            $("#newuser").hide();
+                            $("#changeusername").hide();
+                            $("#changepassword").hide();
+                            $("#minordervalform").toggle();
+                            $("#minorderval").toggleClass('selectoption');
+                            $("#updatepassword").removeClass('selectoption');
+                            $("#updateusername").removeClass('selectoption');
+                            $("#createuser").removeClass('selectoption');
+
+                        });
+
+                        
+
+                    });
+                    
+
+
+</script>
+            <% include ../partials/footer %>

@@ -1,0 +1,122 @@
+<% include ../partials/header %>
+          
+                    <div class="container-fluid">
+                      
+           
+
+                        <div class="card mb-4">
+                            <input type="hidden" id="type" value="<%=type%>">
+                        
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Orders      
+            
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example"class="table table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                             
+                                                <th>Order ID</th>
+                                                <th>Order Date</th>
+                                                <th>Order Time</th>
+                                                <th>Customer</th>
+                                                <th>Area</th>
+                                                <th>Status</th>
+                                                <th>Phone</th>
+                                                <th>Payment Mode</th>
+                                                <th hidden >Count</th>
+                                                <th>Action</th>
+                                               
+                                                
+                                            </tr>
+                                        </thead>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       <script>
+// var oTable = $('table.data-table').DataTable({ 
+// 	rowCallback: function(row, data, index){
+//   	if(data[3]> 11.7){
+//     	$(row).find('td:eq(3)').css('color', 'red');
+//     }
+//     if(data[2].toUpperCase() == 'EE'){
+//     	$(row).find('td:eq(2)').css('color', 'blue');
+//     }
+//   }
+// });
+
+$(document).ready(function() {
+ 
+ $('#export').on('click',function(){
+ //alert("hello");
+ $.ajax({
+        type: "POST",
+        url: "/orders/exportData",
+        success: function(result) {
+            var blob=new Blob([result], {type: 'text/csv'});
+            var link=document.createElement('a');
+
+            link.style = "display: none";
+            document.body.appendChild(link);
+
+            var url = window.URL.createObjectURL(blob);
+            link.href = url;
+            console.log(url);
+            link.download="download.csv";
+            link.click();
+            window.URL.revokeObjectURL(url);
+        }
+    });    
+ })
+    var type = $("#type").val();
+   //  alert(type);
+    $('#example').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/orders/test/processtabledata/"+type,
+            "type": "POST"
+        },
+         "rowCallback": function(row, data, index){
+   // alert("ehllo");  
+
+   console.log(data.ordercount);
+        if(parseInt(data.ordercount) ==  1){
+    	$(row).find('td:eq(0)').css('background-color', 'green');
+    }
+  },
+        "columns": [
+            { "data": "order_id" },
+            { "data": "order_date" },
+            { "data": "order_time" },
+            { "data": "customer" },
+            { "data": "area" },
+            { "data": "status","orderable": false },
+            { "data": "phone","orderable": false, },
+            { "data": "paymentmode","orderable": false, },
+            { "data": "ordercount","orderable": false,"visible": false  },
+            { "data": "action","orderable": false  }
+           
+        ]
+      
+    } );
+} );
+       </script>
+            <% include ../partials/footer %>

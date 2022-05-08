@@ -1,0 +1,52 @@
+
+<% include ../partials/header %>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Edit Supplier</h1>  <a class="btn btn-info" href="/suppliers"> Back</a>
+</div>
+<br>
+
+
+
+
+
+<form action="/suppliers/<%= supplier[0].id %>?_method=PUT" method="POST">
+<div class="form-row">
+<div class="form-group col-md-6">
+  <label for="inputEmail4">Company Name</label>
+  <input type="text" class="form-control" id="companyName"  name="companyName" value="<%= supplier[0].companyname %>" placeholder="Company Name" required >
+</div>
+<div class="form-group col-md-6">
+  <label for="inputContactPerson">Contact Person</label>
+  <input type="text" class="form-control" id="ContactPerson" name="ContactPerson" value="<%= supplier[0].contactperson %>"  placeholder="Contact Person" required>
+</div>
+</div>
+<div class="form-group">
+<label for="inputAddress">Address</label>
+<input type="text" class="form-control" id="inputAddress"  name="address" value="<%=supplier[0].address%>" placeholder="Address" required>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-md-2">
+      <label for="inputZip">Contact Number 1</label>
+      <input type="tel" class="form-control" id="telephone" name="ContactNumber" value="<%=supplier[0].contactnumber%>" placeholder="Contact Number" required>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="inputContactPerson">Email</label>
+        <input type="email" class="form-control" id="Email" name="email" value="<%=supplier[0].email%>" placeholder="Email" required>
+      </div>
+
+
+</div>
+<div class="form-group">
+<div class="form-check">
+    <% let checked = ( supplier[0].active === 1 ) ? "checked" : "" %>
+  <input class="form-check-input" type="checkbox" name="active" id="active" <%= checked %>>
+  <label class="form-check-label" for="gridCheck">
+    Active
+  </label>
+</div>
+</div>
+<button type="submit" class="btn btn-primary">Save</button>
+</form> 
+<% include ../partials/footer %>

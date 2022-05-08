@@ -1,0 +1,78 @@
+<% include ../partials/header %>
+             
+                    <div class="container-fluid">
+                     
+                       
+           
+
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Feedback Messages   
+                            <!-- <div class="float-right">
+                                <a href=""><i class="fas fa-shipping-fast"> </i> Dispatch </a>
+                                <a href=""><i class="fas fa-hourglass-start"> </i> Delay </a>
+                                
+                            </div> -->
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableUser" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                               
+                                                <th>ID</th>
+                                                <th>User ID</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Message</th>
+                                                <th>Action</th> 
+                                                
+                                            </tr>
+                                        </thead>
+                                       
+                                      
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+       
+
+            <script>
+
+
+                $(document).ready(function() {
+                  //  var type = $("#type").val();
+                   //  alert(type);
+                    $('#dataTableUser').DataTable( {
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": {
+                            "url": "/feedback/processtabledata",
+                            "type": "POST"
+                        },
+                        "columns": [
+                            { "data": "messageid"},
+                            { "data": "userid"},
+                            { "data": "date" },
+                            { "data": "time","orderable": false },
+                            { "data": "message","orderable": false },
+                            { "data": "action","orderable": false}
+                        ]
+                    } );
+                } );
+                       </script>
+            <% include ../partials/footer %>
